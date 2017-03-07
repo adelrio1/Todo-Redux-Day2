@@ -4588,7 +4588,7 @@ module.exports = setInnerHTML;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createTodo = exports.fetchTodos = exports.removeTodo = exports.receiveTodo = exports.receiveTodos = exports.REMOVE_TODO = exports.RECEIVE_TODO = exports.RECEIVE_TODOS = undefined;
+exports.deleteTodo = exports.updateTodo = exports.createTodo = exports.fetchTodos = exports.removeTodo = exports.receiveTodo = exports.receiveTodos = exports.REMOVE_TODO = exports.RECEIVE_TODO = exports.RECEIVE_TODOS = undefined;
 
 var _todo_api_util = __webpack_require__(99);
 
@@ -4639,6 +4639,26 @@ var createTodo = exports.createTodo = function createTodo(todo) {
       return dispatch((0, _error_actions.receiveErrors)(err));
     }).then(function () {
       return dispatch((0, _error_actions.clearErrors)());
+    });
+  };
+};
+
+var updateTodo = exports.updateTodo = function updateTodo(todo) {
+  return function (dispatch) {
+    return UTIL.updateTodo(todo).then(function (updatedTodo) {
+      return dispatch(receiveTodo(updatedTodo));
+    }, function (err) {
+      return dispatch((0, _error_actions.receiveErrors)(err));
+    }).then(function () {
+      return dispatch((0, _error_actions.clearErrors)());
+    });
+  };
+};
+
+var deleteTodo = exports.deleteTodo = function deleteTodo(todo) {
+  return function (dispatch) {
+    return UTIL.deleteTodo(todo).then(function (deletedTodo) {
+      return dispatch(removeTodo(deletedTodo));
     });
   };
 };
@@ -10577,6 +10597,23 @@ var createTodo = exports.createTodo = function createTodo(todo) {
   });
 };
 
+var updateTodo = exports.updateTodo = function updateTodo(todo) {
+  return $.ajax({
+    url: "api/todos/" + todo.id,
+    method: "PATCH",
+    data: {
+      todo: todo
+    }
+  });
+};
+
+var deleteTodo = exports.deleteTodo = function deleteTodo(todo) {
+  return $.ajax({
+    url: "api/todos/" + todo.id,
+    method: "DELETE"
+  });
+};
+
 /***/ }),
 /* 100 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -10806,7 +10843,7 @@ var TodoList = function (_React$Component) {
 
       var TodoListItems = this.props.todos.map(function (todo, index) {
         return _react2.default.createElement(_todo_list_item2.default, { todo: todo, key: index,
-          removeTodo: _this2.props.removeTodo, receiveTodo: _this2.props.receiveTodo
+          deleteTodo: _this2.props.deleteTodo, updateTodo: _this2.props.updateTodo
         });
       });
       return _react2.default.createElement(
@@ -10860,11 +10897,14 @@ var MapStateToProps = function MapStateToProps(state) {
 
 var MapDispatchToProps = function MapDispatchToProps(dispatch) {
   return {
+    updateTodo: function updateTodo(todo) {
+      return dispatch((0, _todo_actions.updateTodo)(todo));
+    },
     createTodo: function createTodo(todo) {
       return dispatch((0, _todo_actions.createTodo)(todo));
     },
-    removeTodo: function removeTodo(todo) {
-      return dispatch((0, _todo_actions.removeTodo)(todo));
+    deleteTodo: function deleteTodo(todo) {
+      return dispatch((0, _todo_actions.deleteTodo)(todo));
     },
     fetchTodos: function fetchTodos() {
       return dispatch((0, _todo_actions.fetchTodos)());
@@ -10947,14 +10987,14 @@ var TodoListItem = function (_React$Component) {
     key: 'handleRemoveTodo',
     value: function handleRemoveTodo(event) {
       event.preventDefault();
-      this.props.removeTodo(this.props.todo);
+      this.props.deleteTodo(this.props.todo);
     }
   }, {
     key: 'handleStatus',
     value: function handleStatus(event) {
       this.props.todo.done = this.props.todo.done ? false : true;
       event.preventDefault();
-      this.props.receiveTodo(this.props.todo);
+      this.props.updateTodo(this.props.todo);
     }
   }, {
     key: 'toggleDetail',

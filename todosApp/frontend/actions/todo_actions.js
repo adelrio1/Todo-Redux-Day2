@@ -28,3 +28,14 @@ export const createTodo = (todo) => (dispatch) => (
     .then((newTodo) => dispatch(receiveTodo(newTodo)),
       err => dispatch(receiveErrors(err))).then(() => dispatch(clearErrors()))
 );
+
+export const updateTodo = (todo) => (dispatch) => (
+  UTIL.updateTodo(todo)
+    .then((updatedTodo) => dispatch(receiveTodo(updatedTodo)),
+      err => dispatch(receiveErrors(err))).then(() => dispatch(clearErrors()))
+);
+
+export const deleteTodo = (todo) => (dispatch) => (
+  UTIL.deleteTodo(todo)
+    .then( (deletedTodo) =>  dispatch(removeTodo(deletedTodo)))
+);

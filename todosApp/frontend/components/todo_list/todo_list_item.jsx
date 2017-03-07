@@ -21,13 +21,13 @@ class TodoListItem extends React.Component {
   }
   handleRemoveTodo(event) {
     event.preventDefault();
-    this.props.removeTodo(this.props.todo);
+    this.props.deleteTodo(this.props.todo);
   }
 
   handleStatus(event) {
     this.props.todo.done = (this.props.todo.done ? false : true);
     event.preventDefault();
-    this.props.receiveTodo(this.props.todo);
+    this.props.updateTodo(this.props.todo);
   }
 
   toggleDetail(event) {
