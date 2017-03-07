@@ -12,8 +12,8 @@ class TodoListItem extends React.Component {
 
   render() {
     return (
-      <li onClick={this.toggleDetail}>
-        <p>title: { this.props.todo.title }</p>
+      <li>
+        <p onClick={this.toggleDetail}>title: { this.props.todo.title }</p>
         <button onClick={this.handleStatus}>{this.props.todo.done ? "undo" : "complete"}</button>
         <button onClick={this.handleRemoveTodo}>Remove Todo</button>
         <TodoDetailView todo={this.props.todo} detail={this.state.detail} />
