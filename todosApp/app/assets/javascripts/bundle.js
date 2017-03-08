@@ -6992,6 +6992,13 @@ var allTodos = exports.allTodos = function allTodos(state) {
   });
 };
 
+var allTags = exports.allTags = function allTags(state) {
+  var tagIDs = Object.keys(state.tags);
+  return tagIDs.map(function (id) {
+    return state.tags[id];
+  });
+};
+
 /***/ }),
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -10739,7 +10746,7 @@ var TodoForm = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (TodoForm.__proto__ || Object.getPrototypeOf(TodoForm)).call(this, props));
 
-    _this.state = { title: "", body: "" };
+    _this.state = { title: "", body: "", tag_names: [] };
     _this.handleNewTodo = _this.handleNewTodo.bind(_this);
     _this.updateTitle = _this.updateTitle.bind(_this);
     _this.updateBody = _this.updateBody.bind(_this);
@@ -10891,7 +10898,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var MapStateToProps = function MapStateToProps(state) {
   return {
     todos: (0, _selectors.allTodos)(state),
-    errors: state.errors
+    errors: state.errors,
+    tags: (0, _selectors.allTags)(state)
   };
 };
 

@@ -3,7 +3,7 @@ import React from 'react';
 class TodoForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {title: "", body: ""};
+    this.state = {title: "", body: "", tag_names: []};
     this.handleNewTodo = this.handleNewTodo.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
     this.updateBody = this.updateBody.bind(this);
